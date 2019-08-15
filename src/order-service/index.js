@@ -3,7 +3,7 @@ const kafka = require('kafka-node');
 const app = express();
 
 const kafkaClient = new kafka.KafkaClient({
-    kafkaHost: 'localhost:9092'
+    kafkaHost: 'kafka-service:9092'
 });
 const kafkaProducer = new kafka.Producer(kafkaClient);
 
