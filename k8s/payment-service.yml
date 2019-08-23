@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-service-deployment
+  name: payments
+  namespace: lise-microservices-dev
   labels:
-    app: payment-service
+    app: payments
 spec:
   selector:
     matchLabels:
-      app: payment-service
+      app: payments
   template:
     metadata:
       labels:
-        app: payment-service
+        app: payments
     spec:
       containers:
-        - name: payment-service
-          image: nomost80/payment-service
+        - name: payments
+          image: nomost80/payment-service:1.0

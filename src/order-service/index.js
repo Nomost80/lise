@@ -3,7 +3,7 @@ const kafka = require('kafka-node');
 const app = express();
 
 const kafkaClient = new kafka.KafkaClient({
-    kafkaHost: 'kafka-service:9092'
+    kafkaHost: 'kafka-svc.lise-microservices-dev.svc.cluster.local:9092'
 });
 const kafkaProducer = new kafka.Producer(kafkaClient);
 
@@ -30,7 +30,7 @@ app.post('/orders', (req, res) => {
     });
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 80;
 app.listen(port, () => {
     console.log('Listening on port', port);
 });

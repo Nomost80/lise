@@ -1,20 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zookeeper-deployment
+  name: zk
+  namespace: lise-microservices-dev
   labels:
-    app: zookeeper
+    app: zk
 spec:
   selector:
     matchLabels:
-      app: zookeeper
+      app: zk
   template:
     metadata:
       labels:
-        app: zookeeper
+        app: zk
     spec:
       containers:
-        - name: zookeeper
+        - name: zk
           image: wurstmeister/zookeeper
           ports:
             - containerPort: 2181
@@ -22,11 +23,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zookeeper-service
+  name: zk
+  namespace: lise-microservices-dev
 spec:
   type: ClusterIP
   selector:
-    app: zookeeper
+    app: zk
   ports:
     - name: zk-client-port
       port: 2181

@@ -1,7 +1,7 @@
 const kafka = require('kafka-node');
 
 const kafkaClient = new kafka.KafkaClient({
-    kafkaHost: 'kafka-service:9092'
+    kafkaHost: 'kafka-svc.lise-microservices-dev.svc.cluster.local:9092'
 });
 
 const kafkaConsumer = new kafka.Consumer(

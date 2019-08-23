@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: lise-gateway
+  namespace: lise-microservices-dev
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+      - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: lise-ingress
+  namespace: lise-microservices-dev
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - lise-gateway
+  http:
+  - match:
+    - uri:
+        exact: /orders
+    route:
+    - destination:
+        host: orders.lise-microservices-dev.svc.cluster.local
+        port:
+          number: 80
