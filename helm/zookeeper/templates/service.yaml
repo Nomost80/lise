@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "zookeeper.fullname" . }}
+  labels:
+{{ include "zookeeper.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      protocol: TCP
+      name: client-port
+  selector:
+    app.kubernetes.io/name: {{ include "zookeeper.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
