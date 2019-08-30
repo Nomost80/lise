@@ -1,23 +1,20 @@
-# Default values for kafka.
+# Default values for order-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
-namespace: lise-microservices-dev
 
 replicaCount: 1
 
 image:
-  repository: wurstmeister/kafka
-  tag: latest
+  repository: nomost80/order-service
+  tag: 0.2.0
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
-nameOverride: "kafka"
-fullnameOverride: "kafka"
+nameOverride: "orders"
+fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 9092
 
 ingress:
   enabled: false
@@ -50,3 +47,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Custom Params:
+kafka:
+  endpoint: ""

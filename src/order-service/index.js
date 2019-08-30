@@ -3,7 +3,7 @@ const kafka = require('kafka-node');
 const app = express();
 
 const kafkaClient = new kafka.KafkaClient({
-    kafkaHost: 'kafka-svc.lise-microservices-dev.svc.cluster.local:9092'
+    kafkaHost: process.env.kafkaHost
 });
 const kafkaProducer = new kafka.Producer(kafkaClient);
 

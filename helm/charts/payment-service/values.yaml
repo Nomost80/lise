@@ -2,18 +2,16 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespace: lise-microservices-dev
-
 replicaCount: 1
 
 image:
   repository: nomost80/payment-service
-  tag: 0.1.0
+  tag: 0.2.0
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: "payments"
-fullnameOverride: "payments"
+fullnameOverride: ""
 
 service:
   type: ClusterIP
@@ -50,3 +48,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Custom Params
+kafka:
+  endpoint: ""
