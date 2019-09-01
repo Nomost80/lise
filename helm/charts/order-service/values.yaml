@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: nomost80/order-service
-  tag: 0.2.0
+  tag: 0.2.2
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

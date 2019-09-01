@@ -2,10 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+nameOverride: "lise"
+fullnameOverride: "lise"
+
 # Dependencies parameters
 kafka:
+#  advertisedListeners: "PLAINTEXT://mercury-kafka.lise-microservices-dev.svc.cluster.local:9092"
   persistence:
-    enabled: "false"
+    enabled: false
   extraEnvVars:
     - name: KAFKA_CREATE_TOPICS
       value: "orders:1:1"
+  zookeeper:
+    persistence:
+      enabled: false

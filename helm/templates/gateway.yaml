@@ -1,8 +1,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: lise-gateway
-  namespace: lise-microservices-dev
+  name: {{ include "lise.fullname" . }}-gateway
+  labels:
+{{ include "lise.labels" . | indent 4 }}
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -17,19 +18,20 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: lise-ingress
-  namespace: lise-microservices-dev
+  name: {{ include "lise.fullname" . }}-ingress
+  labels:
+{{ include "lise.labels" . | indent 4 }}
 spec:
   hosts:
   - "*"
   gateways:
-  - lise-gateway
+  - {{ include "lise.fullname" . }}-gateway
   http:
   - match:
     - uri:
         exact: /orders
     route:
     - destination:
-        host: orders.lise-microservices-dev.svc.cluster.local
+        host: {{ include "call-nested" (list . "order-service" "endpoint") }}
         port:
           number: 80

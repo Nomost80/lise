@@ -2,8 +2,10 @@ const express = require('express');
 const kafka = require('kafka-node');
 const app = express();
 
+console.log('env: ', process.env);
+
 const kafkaClient = new kafka.KafkaClient({
-    kafkaHost: process.env.kafkaHost
+    kafkaHost: process.env.KAFKA_HOST
 });
 const kafkaProducer = new kafka.Producer(kafkaClient);
 
