@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "lise.fullname" . }}-test-connection"
+  labels:
+{{ include "lise.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+    "sidecar.istio.io/inject": "false"
+spec:
+  containers:
+    - name: curl
+      image: appropriate/curl
+      args:  ['-v', '-d', '{"name":"usb key","quantity":3,"unitPrice":5}', '-H' ,'"Content-Type: application/json"', '-X', 'POST', 'http://192.168.1.221:31380/orders']
+  restartPolicy: Never
