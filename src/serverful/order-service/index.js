@@ -21,8 +21,7 @@ app.post('/orders', (req, res) => {
     console.log('New order: ', req.body);
     kafkaProducer.send([{
         topic: 'orders',
-        messages: JSON.stringify(req.body),
-        partitions: 1
+        messages: JSON.stringify(req.body)
     }], (err, data) => {
         if (err)
             res.status(500).send(err);

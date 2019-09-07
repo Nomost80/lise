@@ -1,12 +1,30 @@
 apiVersion: serving.knative.dev/v1alpha1
 kind: Service
 metadata:
-  name: orders
+  name: {{ include "order-function.fullname" . }}-service
+  labels:
+{{ include "order-function.labels" . | indent 4 }}
 spec:
   template:
     spec:
       containers:
-        - image: nomost80/order-function:0.1.0
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
           env:
             - name: KAFKA_HOST
               value: {{ include "kafka.endpoint" . }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

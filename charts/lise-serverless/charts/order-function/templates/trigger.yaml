@@ -1,13 +1,13 @@
 apiVersion: eventing.knative.dev/v1alpha1
 kind: Trigger
 metadata:
-  name: hello-display
+  name: {{ include "order-function.fullname" . }}-trigger
 spec:
   filter:
     attributes:
-      type: greeting
+      type: {{ .Values.triggerAttribute }}
   subscriber:
     ref:
       apiVersion: serving.knative.dev/v1alpha1
       kind: Service
-      name: hello-display
+      name: {{ include "order-function.fullname" . }}-service

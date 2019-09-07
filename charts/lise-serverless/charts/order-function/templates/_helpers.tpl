@@ -47,7 +47,3 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- define "kafka.endpoint" -}}
 {{ required "The kafka endpoint value is required." .Values.kafka.endpoint }}
 {{- end -}}
-
-{{- define "endpoint" -}}
-{{- printf "%s-%s.%s.%s" .Release.Name .Values.nameOverride .Release.Namespace "svc.cluster.local" -}}
-{{- end -}}

@@ -1,16 +1,16 @@
 apiVersion: sources.eventing.knative.dev/v1alpha1
 kind: KafkaSource
 metadata:
-  name: {{ include "lise-serverless.fullname" . }}-kafka-source
+  name: {{ include "order-function.fullname" . }}-kafka-source
 spec:
-  consumerGroup: knative-group
+  consumerGroup: {{ .Values.kafkaConsumerGroup }}
   # Broker URL. Replace this with the URLs for your kafka cluster,
   # which is in the format of my-cluster-kafka-bootstrap.my-kafka-namespace:9092.
   bootstrapServers: {{ include "kafka.endpoint" . }}
-  topics: orders
+  topics: {{ .Values.kafkaTopics }}
   sink:
     apiVersion: messaging.knative.dev/v1alpha1
     kind: KafkaChannel
-    name: {{ include "lise-serverless.fullname" . }}-kafka-channel
+    name: {{ include "order-function.fullname" . }}-kafka-channel
 
 # https://youtu.be/_K7zMWzs2t0?t=501 Accès à l'évent

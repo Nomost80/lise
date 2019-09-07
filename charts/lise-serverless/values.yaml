@@ -5,9 +5,6 @@
 nameOverride: ""
 fullnameOverride: ""
 
-kafkaSourceTopics: orders
-
-
 # Dependencies parameters
 kafka:
   persistence:

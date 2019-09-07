@@ -1,17 +1,15 @@
-# Default values for order-service.
+# Default values for order-function.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
 image:
-  repository: nomost80/order-service-serverless
+  repository: nomost80/order-function
   tag: 0.1.0
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: "orders"
-fullnameOverride: ""
+fullnameOverride: "orders"
 
 service:
   type: ClusterIP
@@ -47,6 +45,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+triggerAttribute: orders
 
 # Custom Params:
 kafka:

@@ -13,4 +13,5 @@ app.post('/', (req, res) => {
     const message = req.body.Body;
     console.log('Headers: ', req.headers);
     console.log('Order received: ', message);
+    res.status(200).end();
 });

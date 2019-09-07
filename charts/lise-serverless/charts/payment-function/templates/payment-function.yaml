@@ -1,12 +1,31 @@
 apiVersion: serving.knative.dev/v1alpha1
 kind: Service
 metadata:
-  name: payments
+  name: {{ include "payment-function.fullname" . }}-service
+  labels:
+{{ include "payment-function.labels" . | indent 4 }}
 spec:
   template:
     spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
       containers:
-        - image: nomost80/payment-function:0.1.0
-          env:
-            - name: KAFKA_HOST
-              value: {{ include "kafka.endpoint" . }}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

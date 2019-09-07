@@ -43,7 +43,3 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
-
-{{- define "kafka.endpoint" -}}
-{{ required "The kafka endpoint value is required." .Values.kafka.endpoint }}
-{{- end -}}

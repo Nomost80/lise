@@ -1,7 +1,7 @@
 apiVersion: messaging.knative.dev/v1alpha1
 kind: KafkaChannel
 metadata:
-    name: {{ include "lise-serverless.fullname" . }}-kafka-channel
+    name: {{ include "order-function.fullname" . }}-kafka-channel
 spec:
     numPartitions: 1
     replicationFactor: 1
