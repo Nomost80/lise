@@ -1,9 +1,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: lise-microservices-dev
+  name: helm-system
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: helm-system
+  name: lise-serverful
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lise-serverless

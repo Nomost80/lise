@@ -1,0 +1,12 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: orders
+spec:
+  template:
+    spec:
+      containers:
+        - image: nomost80/order-function:0.1.0
+          env:
+            - name: KAFKA_HOST
+              value: {{ include "kafka.endpoint" . }}

@@ -1,9 +1,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: {{ include "lise.fullname" . }}-gateway
+  name: {{ include "lise-serverful.fullname" . }}-gateway
   labels:
-{{ include "lise.labels" . | indent 4 }}
+{{ include "lise-serverful.labels" . | indent 4 }}
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -18,14 +18,14 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: {{ include "lise.fullname" . }}-ingress
+  name: {{ include "lise-serverful.fullname" . }}-ingress
   labels:
-{{ include "lise.labels" . | indent 4 }}
+{{ include "lise-serverful.labels" . | indent 4 }}
 spec:
   hosts:
   - "*"
   gateways:
-  - {{ include "lise.fullname" . }}-gateway
+  - {{ include "lise-serverful.fullname" . }}-gateway
   http:
   - match:
     - uri:

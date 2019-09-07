@@ -11,11 +11,10 @@ const kafkaProducer = new kafka.Producer(kafkaClient);
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    console.log('Hello world received a request.');
-
-    const target = process.env.TARGET || 'World';
-    res.send(`Hello ${target}!`);
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'UP'
+    });
 });
 
 app.post('/orders', (req, res) => {
