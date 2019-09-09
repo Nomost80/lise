@@ -55,7 +55,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- $kafkaName := include "call-nested" (list . "kafka" "kafka.fullname") -}}
 {{- $kafkaPort := 9092 -}}
 {{- if .Values.kafka.service -}}{{ if .Values.kafka.service.port -}}
- $kafkaName := .Values.kafka.service.port
+ $kafkaPort := .Values.kafka.service.port
 {{- end -}}{{- end -}}
 {{- printf "%s-%s.%s.%s:%s" $kafkaName "headless" .Release.Namespace "svc.cluster.local" ($kafkaPort | toString) -}}
 {{- end -}}
