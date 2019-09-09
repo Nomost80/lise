@@ -16,7 +16,7 @@ metadata:
   name: tiller
   namespace: lise-serverful
 rules:
-  - apiGroups: ["", "batch", "extensions", "apps"]
+  - apiGroups: ["", "batch", "extensions", "apps", "networking.istio.io"]
     resources: ["*"]
     verbs: ["*"]
 ---
@@ -26,7 +26,7 @@ metadata:
   name: tiller
   namespace: lise-serverless
 rules:
-  - apiGroups: ["", "batch", "extensions", "apps"]
+  - apiGroups: ["", "batch", "extensions", "apps", "networking.istio.io", "serving.knative.dev", "eventing.knative.dev", "messaging.knative.dev", "sources.eventing.knative.dev"]
     resources: ["*"]
     verbs: ["*"]
 ---
