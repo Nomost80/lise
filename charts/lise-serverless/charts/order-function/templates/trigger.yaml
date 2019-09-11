@@ -2,6 +2,8 @@ apiVersion: eventing.knative.dev/v1alpha1
 kind: Trigger
 metadata:
   name: {{ include "order-function.fullname" . }}-trigger
+  labels:
+{{ include "order-function.labels" . | indent 4 }}
 spec:
   filter:
     attributes:

@@ -16,16 +16,14 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
+            - name: http1
               containerPort: 80
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /health
-              port: http
           readinessProbe:
             httpGet:
               path: /health
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

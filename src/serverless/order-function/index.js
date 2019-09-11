@@ -17,7 +17,8 @@ app.get('/health', (req, res) => {
     });
 });
 
-app.post('/orders', (req, res) => {
+app.post('/', (req, res) => {
+    console.log('Req: ', req);
     console.log('New order: ', req.body);
     kafkaProducer.send([{
         topic: 'orders',

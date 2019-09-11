@@ -1,7 +1,9 @@
 apiVersion: messaging.knative.dev/v1alpha1
 kind: KafkaChannel
 metadata:
-    name: {{ include "order-function.fullname" . }}-kafka-channel
+  name: {{ include "payment-function.fullname" . }}-kafka-channel
+  labels:
+{{ include "payment-function.labels" . | indent 4 }}
 spec:
-    numPartitions: 1
-    replicationFactor: 1
+  numPartitions: 1
+  replicationFactor: 1

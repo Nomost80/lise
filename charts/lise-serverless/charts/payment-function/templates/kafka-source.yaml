@@ -1,7 +1,9 @@
 apiVersion: sources.eventing.knative.dev/v1alpha1
 kind: KafkaSource
 metadata:
-  name: {{ include "order-function.fullname" . }}-kafka-source
+  name: {{ include "payment-function.fullname" . }}-kafka-source
+  labels:
+{{ include "payment-function.labels" . | indent 4 }}
 spec:
   consumerGroup: {{ .Values.kafkaConsumerGroup }}
   # Broker URL. Replace this with the URLs for your kafka cluster,
@@ -11,6 +13,4 @@ spec:
   sink:
     apiVersion: messaging.knative.dev/v1alpha1
     kind: KafkaChannel
-    name: {{ include "order-function.fullname" . }}-kafka-channel
-
-# https://youtu.be/_K7zMWzs2t0?t=501 Accès à l'évent
+    name: {{ include "payment-function.fullname" . }}-kafka-channel

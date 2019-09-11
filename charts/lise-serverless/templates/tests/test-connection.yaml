@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "lise-serverless.fullname" . }}-test-connection"
+  labels:
+{{ include "lise-serverless.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: curl
+      image: appropriate/curl
+      args:  ['-v', '-d', '{"name":"usb key","quantity":3,"unitPrice":5}', '-H' ,'Content-Type: application/json', '-H', 'Ce-Id: orders', '-H', 'Ce-Specversion: 0.2', '-H', 'Ce-Type: orders', 'Ce-Source: orders', '-X', 'POST', 'default-broker.lise-serverless.svc.cluster.local']
+  restartPolicy: Never

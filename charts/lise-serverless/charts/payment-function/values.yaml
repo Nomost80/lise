@@ -9,7 +9,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: "payments"
-fullnameOverride: "payments"
+fullnameOverride: ""
 
 service:
   type: ClusterIP
@@ -46,6 +46,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Custom Params:
+kafka:
+  endpoint: ""
 
 kafkaConsumerGroup: payment-function
 kafkaTopics: orders

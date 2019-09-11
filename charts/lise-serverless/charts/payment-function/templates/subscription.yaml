@@ -1,14 +1,16 @@
 apiVersion: eventing.knative.dev/v1alpha1
 kind: Subscription
 metadata:
-  name: {{ include "order-function.fullname" . }}-kafka-subscription
+  name: {{ include "payment-function.fullname" . }}-kafka-subscription
+  labels:
+{{ include "payment-function.labels" . | indent 4 }}
 spec:
   channel:
-    apiVersion: eventing.knative.dev/v1alpha1
-    kind: Channel
-    name: {{ include "order-function.fullname" . }}-kafka-channel
+    apiVersion: messaging.knative.dev/v1alpha1
+    kind: KafkaChannel
+    name: {{ include "payment-function.fullname" . }}-kafka-channel
   subscriber:
     ref:
       apiVersion: serving.knative.dev/v1alpha1
       kind: Service
-      name: {{ include "order-function.fullname" . }}-service
+      name: {{ include "payment-function.fullname" . }}-service

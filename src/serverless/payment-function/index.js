@@ -15,3 +15,8 @@ app.post('/', (req, res) => {
     console.log('Order received: ', message);
     res.status(200).end();
 });
+
+const port = process.env.PORT || 80;
+app.listen(port, () => {
+    console.log('Listening on port', port);
+});
