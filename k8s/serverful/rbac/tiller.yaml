@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tiller
+  namespace: lise-serverful
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tiller
+  namespace: lise-serverful
+rules:
+  - apiGroups: ["", "batch", "extensions", "apps", "networking.istio.io"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tiller
+  namespace: lise-serverful
+subjects:
+  - kind: ServiceAccount
+    name: tiller
+    namespace: lise-serverful
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tiller
