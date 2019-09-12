@@ -32,6 +32,7 @@ curl -v -d '{"name":"usb key", "quantity":3, "unitPrice": 5}'
 * Enable automatic sidecar injections: `kubectl label namespace $NAMESPACE istio-injection=enabled`
 * Enable Knative eventing injection: `kubectl label namespace $NAMESPACE knative-eventing-injection=enabled` 
 * Deploy Tiller without sidecar: `helm init --service-account tiller --history-max 200 --tiller-namespace $NAMESPACE --override spec.template.metadata.annotations."sidecar\.istio\.io/inject"="false"`
+* Read Kafka messages: `/opt/bitnami/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic $TOPIC --from-beginning` in the kafka pod
 
 # Todo
 - [ ] Test serverless from outside with a gateway
