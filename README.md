@@ -1,8 +1,8 @@
 # Getting started
-A running Kubernetes cluster with both Istio and Tiller installed is required.
-* `kubectl apply -f -R ./k8s`
+A running Kubernetes cluster with Istio, Tiller, Knative serving/eventing and knative kafka installed is required.
 
 ## Serverful
+* `kubectl apply -R -f ./k8s/serverful`
 * `export NAMESPACE="lise-serverful" RELEASE_NAME="mercury"` 
 * `helm charts/lise-serverful --tiller-namespace $NAMESPACE --namespace $NAMESPACE --name $RELEASE_NAME --dep-up`
 
@@ -13,11 +13,15 @@ curl -v -d '{"name":"usb key", "quantity":3, "unitPrice": 5}'
   -X POST http://192.168.1.221:31380/orders
 ```
 
-## Serverless
+## Serverless [NOT UNDER DEVELOPMENT]
+* `kubectl apply -R -f ./k8s/serverless`
 * `export NAMESPACE="lise-serverless" RELEASE_NAME="mercury"` 
 * `helm charts/lise-serverless --tiller-namespace $NAMESPACE --namespace $NAMESPACE --name $RELEASE_NAME --dep-up`
 
-Then you can test the release by running the following command:
+Then you can test the release by running the following commands:
+```shell script
+kubectl attach curl -it
+```
 ```shell script
 curl -v -d '{"name":"usb key", "quantity":3, "unitPrice": 5}' 
   -H "Content-Type: application/json" 
