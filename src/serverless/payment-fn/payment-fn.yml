@@ -1,0 +1,11 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://192.168.1.211:31112
+functions:
+  payment-fn:
+    lang: rust
+    handler: ./fn
+    image: nomost80/payment-fn:latest
+    annotations:
+      topic: orders
