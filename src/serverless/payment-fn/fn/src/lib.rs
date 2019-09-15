@@ -1,4 +1,9 @@
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
 pub fn handle(req : String) -> String {
-    println!("Order received: {0}", req);
+    env_logger::init();
+    debug!("Order received: {}", req);
     req
 }
