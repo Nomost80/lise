@@ -42,3 +42,14 @@ The payment function has been triggered by a message sended at the kafka topic `
 - [ ] Setup Helm authentication context
 - [ ] Setup TLS
 - [ ] Deploy Kafka in production mode (storage, monitoring and authentication)
+
+## Serverful
+- [ ] Circuit Breaking
+- [ ] Fault Injection
+- [ ] Security Policies (rate limit)
+- [ ] Autoscaling
+- [ ] Metrics, logs, tracing visualization
+
+## Serverless
+- [ ] Monitoring: set up Prometheus and Grafana
+- [ ] Logging: set up Loki or Fluentd with OpenFaas
