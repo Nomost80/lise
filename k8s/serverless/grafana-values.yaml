@@ -17,6 +17,10 @@ datasources:
         url: http://prometheus:9090
         access: proxy
         isDefault: true
+      - name: Loki
+        type: loki
+        url: http://mercury-loki:3100
+        access: proxy
 
 dashboardProviders:
   dashboardproviders.yaml:

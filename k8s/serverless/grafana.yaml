@@ -8,7 +8,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
   annotations:
@@ -62,7 +62,7 @@ metadata:
   name: mercury-grafana-test
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
 spec:
@@ -95,7 +95,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     release: mercury
     heritage: Tiller
 data:
@@ -120,6 +120,10 @@ data:
       name: Prometheus
       type: prometheus
       url: http://prometheus:9090
+    - access: proxy
+      name: Loki
+      type: loki
+      url: http://mercury-loki:3100
     
   dashboardproviders.yaml: |
     apiVersion: 1
@@ -156,7 +160,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     release: mercury
     heritage: Tiller
     dashboard-provider: default
@@ -170,7 +174,7 @@ metadata:
   name: mercury-grafana-test
   labels:
     app: mercury-grafana
-    chart: "grafana-3.8.14"
+    chart: "grafana-3.8.11"
     heritage: "Tiller"
     release: "mercury"
 data:
@@ -192,7 +196,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     release: mercury
     heritage: Tiller
   finalizers:
@@ -213,7 +217,7 @@ kind: ServiceAccount
 metadata:
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
   name: mercury-grafana
@@ -227,7 +231,7 @@ kind: ServiceAccount
 metadata:
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
   name: mercury-grafana-test
@@ -240,7 +244,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     release: mercury
     heritage: Tiller
   name: mercury-grafana-clusterrole
@@ -255,7 +259,7 @@ metadata:
   name: mercury-grafana-clusterrolebinding
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     release: mercury
     heritage: Tiller
 subjects:
@@ -275,7 +279,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
 rules:
@@ -292,7 +296,7 @@ metadata:
   name: mercury-grafana-test
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
 rules:
@@ -310,7 +314,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
 roleRef:
@@ -329,7 +333,7 @@ metadata:
   name: mercury-grafana-test
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     heritage: Tiller
     release: mercury
 roleRef:
@@ -350,7 +354,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     release: mercury
     heritage: Tiller
 spec:
@@ -373,7 +377,7 @@ metadata:
   name: mercury-grafana-test
   labels:
     app: mercury-grafana
-    chart: "grafana-3.8.14"
+    chart: "grafana-3.8.11"
     heritage: "Tiller"
     release: "mercury"
   annotations:
@@ -413,7 +417,6 @@ spec:
 
 ---
 # Source: grafana/templates/deployment.yaml
-
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -421,7 +424,7 @@ metadata:
   namespace: openfaas
   labels:
     app: grafana
-    chart: grafana-3.8.14
+    chart: grafana-3.8.11
     release: mercury
     heritage: Tiller
 spec:
@@ -438,11 +441,10 @@ spec:
         app: grafana
         release: mercury
       annotations:
-        checksum/config: 03ab61ff62c10795f56c9ebfa9b33895b9538c52829c6d341c1fc785a99ea287
-        checksum/dashboards-json-config: 1b3e5d6d7b308793275cb18e7e052e71bb890be943de0d596e89cbf9c0b95a1c
+        checksum/config: 10a220b736a3387da452bd6825bb9b14085613c4ead1b7d30e97f47de53d3d0d
+        checksum/dashboards-json-config: 09d9a6c8f6e975598c1d8359d95113ee901e9fcd7f0d1abd1d24c22330dde6d4
         checksum/sc-dashboard-provider-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     spec:
-      
       serviceAccountName: mercury-grafana
       securityContext:
         fsGroup: 472
@@ -533,6 +535,7 @@ spec:
         - name: storage
           persistentVolumeClaim:
             claimName: mercury-grafana
+
 ---
 # Source: grafana/templates/configmap-dashboard-provider.yaml
 
@@ -544,7 +547,4 @@ spec:
 ---
 # Source: grafana/templates/secret.yaml
 
-
----
-# Source: grafana/templates/statefulset.yaml
 

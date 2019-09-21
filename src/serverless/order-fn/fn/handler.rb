@@ -6,8 +6,6 @@ class Handler
     kafka = Kafka.new([ENV.fetch("KAFKA_SERVICE_URL")], client_id: "order-fn-producer", logger: logger)
     producer = kafka.producer
 
-    logger.info body
-
     producer.produce(body, topic: "orders", partition: 0)
     producer.deliver_messages
     producer.shutdown
