@@ -5,6 +5,9 @@ dependencies:
   - name: kafka
     version: 5.2.1
     repository: https://charts.bitnami.com/bitnami
+  - name: kafka-connector
+    version: 0.3.0
+    repository: https://openfaas.github.io/faas-netes
   - name: promtail
     version: 0.12.1
     repository: https://grafana.github.io/loki/charts
