@@ -1,0 +1,17 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://192.168.1.211:31112
+functions:
+  order:
+    lang: ruby-http
+    handler: ./order-fn
+    image: nomost80/order-fn:latest
+    environment:
+      KAFKA_SERVICE: mercury-kafka.openfaas.svc.cluster.local:9092
+  payment:
+    lang: rust
+    handler: ./payment-fn
+    image: nomost80/payment-fn:latest
+    annotations:
+      topic: orders

@@ -1,14 +1,11 @@
----
-# Source: openfaas-loki/templates/service.yaml
+# Source : https://github.com/LucasRoesler/openfaas-loki/tree/master/chart/openfaas-loki
 apiVersion: v1
 kind: Service
 metadata:
-  name: mercury-openfaas-loki
+  name: {{ .Release.Name }}-openfaas-loki
   labels:
+{{ include "lise-serverless.labels" . | indent 4 }}
     app: openfaas-loki
-    chart: openfaas-loki-0.1.0
-    release: mercury
-    heritage: Tiller
 spec:
   type: ClusterIP
   ports:
@@ -18,30 +15,27 @@ spec:
       name: http
   selector:
     app: openfaas-loki
-    release: mercury
+    app.kubernetes.io/instance: {{ .Release.Name }}
 
 ---
-# Source: openfaas-loki/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mercury-openfaas-loki
+  name: {{ .Release.Name }}-openfaas-loki
   labels:
+{{ include "lise-serverless.labels" . | indent 4 }}
     app: openfaas-loki
-    chart: openfaas-loki-0.1.0
-    release: mercury
-    heritage: Tiller
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: openfaas-loki
-      release: mercury
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
         app: openfaas-loki
-        release: mercury
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
         - name: provider
@@ -52,11 +46,11 @@ spec:
             runAsUser: 10001
           env:
             - name: OF_LOKI_URL
-              value: "http://mercury-loki:3100"
+              value: {{ .Values.openfaasLoki.lokiUrl }}
             - name: OF_LOKI_LOG_LEVEL
-              value: "INFO"
+              value: {{ .Values.openfaasLoki.logLevel }}
             - name: OF_LOKI_TIMEOUT
-              value: "30s"
+              value: {{ .Values.openfaasLoki.timeout }}
           ports:
             - name: http
               containerPort: 9191
@@ -79,5 +73,3 @@ spec:
             requests:
               cpu: 50m
               memory: 120Mi
-            
-
