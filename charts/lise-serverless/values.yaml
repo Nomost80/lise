@@ -1,0 +1,77 @@
+# Default values for lise-serverless.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+kafka:
+  persistence:
+    storageClass: nfs-client
+
+  extraEnvVars:
+    - name: KAFKA_CREATE_TOPICS
+      value: "orders:1:1"
+
+  zookeeper:
+    persistence:
+      enabled: true
+      storageClass: nfs-client
+
+  metrics:
+    kafka:
+      enabled: true
+
+kafka-connector:
+  broker_host: mercury-kafka.openfaas.svc.cluster.local
+  topics: faas-request,orders
+
+grafana:
+  secretType: Opaque
+  username: YWRtaW4=
+  password: ZEtpZUw1NG9OcmV0
+
+  admin:
+    existingSecret: grafana-secrets
+    userKey: username
+    passwordKey: password
+
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: nfs-client
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus.openfaas.svc.cluster.local:9090
+          access: proxy
+          isDefault: true
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      openfaas:
+        gnetId: 3434
+        revision: 4
+        datasource: Prometheus
+
+loki:
+  persistence:
+    enabled: true
+    storageClassName: nfs-client

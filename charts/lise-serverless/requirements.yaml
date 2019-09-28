@@ -1,0 +1,19 @@
+dependencies:
+  - name: nfs-client-provisioner
+    version: 1.2.6
+    repository: https://kubernetes-charts.storage.googleapis.com
+  - name: kafka
+    version: 5.2.1
+    repository: https://charts.bitnami.com/bitnami
+  - name: kafka-connector
+    version: 0.3.0
+    repository: https://openfaas.github.io/faas-netes
+  - name: promtail
+    version: 0.12.1
+    repository: https://grafana.github.io/loki/charts
+  - name: loki
+    version: 0.14.2
+    repository: https://grafana.github.io/loki/charts
+  - name: grafana
+    version: 3.8.15
+    repository: https://kubernetes-charts.storage.googleapis.com
