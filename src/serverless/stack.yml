@@ -7,25 +7,22 @@ functions:
     lang: node
     handler: ./client-fn
     image: nomost80/client-fn:latest
-  order-fn:
-    lang: ruby-http
-    handler: ./order-fn
-    image: nomost80/order-fn:latest
-    environment:
-      KAFKA_SERVICE_URL: mercury-kafka.lise-serverless.svc.cluster.local:9092
-  payment-fn:
-    lang: rust
-    handler: ./payment-fn
-    image: nomost80/payment-fn:latest
-    environment:
-      RUST_LOG: debug
-    annotations:
-      topic: orders
   email-fn:
     lang: ruby
     handler: ./email-fn
     image: email-fn:latest
+    annotations:
+      topic: orders
+    environment:
+      KAFKA_SERVICE: mercury-kafka.openfaas.svc.cluster.local:9092
+      SMTP_SERVER: smtp.mailtrap.io
+      SMTP_PORT: 2525
+      SMTP_USERNAME: e1bb6f67bcf580
+      SMTP_PASSWORD: 7e5a658c8d0ab5
   todos-fn:
     lang: node10-express-service
     handler: ./todos-fn
     image: todos-fn:latest
+    environment:
+      MONGODB_SERVICE: mercury-mongodb.openfaas.svc.cluster.local:27017
+      KAFKA_SERVICE: mercury-kafka.openfaas.svc.cluster.local:9092

@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const fs = require("fs");
 
@@ -48,4 +48,4 @@ module.exports = (event, context) => {
             .status(200)
             .succeed(content);
     });
-}
+};

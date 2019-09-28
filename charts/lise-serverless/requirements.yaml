@@ -17,3 +17,6 @@ dependencies:
   - name: grafana
     version: 3.8.15
     repository: https://kubernetes-charts.storage.googleapis.com
+  - name: mongodb
+    version: 7.2.9
+    repository: https://kubernetes-charts.storage.googleapis.com
