@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-test-openfaas-connection
+  labels:
+{{ include "lise-serverless.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: curl
+      image: appropriate/curl
+      args:  ['-v', '-d', '{"name":"usb key","quantity":3,"unitPrice":5}', '-H' ,'"Content-Type: application/json"', '-X', 'POST', 'http://gateway.openfaas.svc.cluster.local:8080/function/order']
+  restartPolicy: Never

@@ -19,12 +19,17 @@ curl -v -d '{"name":"usb key", "quantity":3, "unitPrice": 5}' \
 ## Serverless
 OpenFaas should be installed in your cluster.
 * `kubectl apply -R -f ./k8s/serverless` 
-* `export NODE_IP="192.168.1.221" GATEWAY_NODE_PORT=31112 OF_NAMESPACE=openfaas`
+* `export NODE_IP="192.168.1.221" GATEWAY_NODE_PORT=31112 OF_NAMESPACE=openfaas RELEASE=mercury`
 * `helm init --tiller-namespace $OF_NAMESPACE --service-account tiller`
-* `helm install ./charts/lise-serverless --dep-up --name mercury --namespace $OF_NAMESPACE --tiller-namespace $OF_NAMESPACE`
+* `helm install ./charts/lise-serverless --dep-up --name $RELEASE --namespace $OF_NAMESPACE --tiller-namespace $OF_NAMESPACE`
 * `faas-cli up -f ./src/serverless/stack.yaml`
 
-Then you can test the functions by running the following command:
+You can test the release by running the following command:
+```shell script
+helm test $RELEASE --tiller-namespace $OF_NAMESPACE --cleanup --parallel
+```
+
+You can also test the functions:
 ```shell script
 curl -v -d '{"name":"usb key", "quantity":3, "unitPrice": 5}' \
   -H "Content-Type: application/json" \
