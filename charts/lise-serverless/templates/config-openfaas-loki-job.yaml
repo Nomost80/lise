@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: openfaas-gateway-access
+  namespace: openfaas
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: openfaas-gateway-access
+  namespace: openfaas
+rules:
+  - apiGroups: ["apps", "extensions"]
+    resources: ["deployments"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: openfaas-gateway-access
+  namespace: openfaas
+subjects:
+  - kind: ServiceAccount
+    name: openfaas-gateway-access
+    namespace: openfaas
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: openfaas-gateway-access
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-config-openfaas-loki-job
+  labels:
+{{ include "lise-serverless.labels" . | indent 4 }}
+    app: config-logging-job
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: {{ .Release.Name }}-config-logging-job
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      serviceAccountName: openfaas-gateway-access
+      restartPolicy: Never
+      containers:
+        - name: config-logging-post-install-job
+          image: bitnami/kubectl
+          command: ["kubectl", "-n", "openfaas", "set", "env", "deployment/gateway", "-c", "gateway", "-e", "logs_provider_url=http://{{ .Release.Name }}-openfaas-loki.openfaas.svc.cluster.local:9191"]

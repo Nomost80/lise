@@ -5,6 +5,13 @@
 nameOverride: ""
 fullnameOverride: ""
 
+nfs-client-provisioner:
+  nfs:
+    server: nfs.hcloud.lan
+    path: /data
+  podSecurityPolicy:
+    enabled: true
+
 kafka:
   persistence:
     storageClass: nfs-client
@@ -23,7 +30,7 @@ kafka:
       enabled: true
 
 kafka-connector:
-  broker_host: mercury-kafka.openfaas.svc.cluster.local
+  broker_host: mercury-kafka.openfaas.svc.cluster.local:9092
   topics: faas-request,orders
 
 grafana:
@@ -32,7 +39,7 @@ grafana:
   password: ZEtpZUw1NG9OcmV0
 
   admin:
-    existingSecret: grafana-secrets
+    existingSecret: mercury-grafana-secrets
     userKey: username
     passwordKey: password
 
@@ -50,6 +57,10 @@ grafana:
           url: http://prometheus.openfaas.svc.cluster.local:9090
           access: proxy
           isDefault: true
+        - name: Loki
+          type: loki
+          url: http://mercury-loki.openfaas.svc.cluster.local:3100
+          access: proxy
 
   dashboardProviders:
     dashboardproviders.yaml:
@@ -70,11 +81,20 @@ grafana:
         gnetId: 3434
         revision: 4
         datasource: Prometheus
+      kafka:
+        gnetId: 721
+        revision: 1
+        datasource: Prometheus
 
 loki:
   persistence:
     enabled: true
     storageClassName: nfs-client
+
+openfaasLoki:
+  lokiUrl: http://mercury-loki.openfaas.svc.cluster.local:3100
+  logLevel: INFO
+  timeout: 30s
 
 mongodb:
   password: dmJPaTRALGU0MmFhOiE=

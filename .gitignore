@@ -1,5 +1,5 @@
 node_modules
 .idea
 charts/**/*.tgz
-src/serverless/**/template
-src/serverless/**/build
+src/serverless/template
+src/serverless/build

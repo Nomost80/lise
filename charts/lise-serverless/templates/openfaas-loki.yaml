@@ -1,0 +1,75 @@
+# Source : https://github.com/LucasRoesler/openfaas-loki/tree/master/chart/openfaas-loki
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-openfaas-loki
+  labels:
+{{ include "lise-serverless.labels" . | indent 4 }}
+    app: openfaas-loki
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9191
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: openfaas-loki
+    app.kubernetes.io/instance: {{ .Release.Name }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-openfaas-loki
+  labels:
+{{ include "lise-serverless.labels" . | indent 4 }}
+    app: openfaas-loki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openfaas-loki
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: openfaas-loki
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: provider
+          image: "theaxer/openfaas-loki:dev"
+          imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsUser: 10001
+          env:
+            - name: OF_LOKI_URL
+              value: {{ .Values.openfaasLoki.lokiUrl }}
+            - name: OF_LOKI_LOG_LEVEL
+              value: {{ .Values.openfaasLoki.logLevel }}
+            - name: OF_LOKI_TIMEOUT
+              value: {{ .Values.openfaasLoki.timeout }}
+          ports:
+            - name: http
+              containerPort: 9191
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /-/health
+              port: http
+              scheme: HTTP
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /-/health
+              port: http
+              scheme: HTTP
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 120Mi
