@@ -3,26 +3,28 @@ provider:
   name: openfaas
   gateway: http://192.168.1.211:31112
 functions:
-  client-fn:
+  client:
     lang: node
     handler: ./client-fn
     image: nomost80/client-fn:latest
-  email-fn:
+  email:
     lang: ruby
     handler: ./email-fn
     image: email-fn:latest
     annotations:
-      topic: orders
+      topic: task-completed
     environment:
       KAFKA_SERVICE: mercury-kafka.openfaas.svc.cluster.local:9092
       SMTP_SERVER: smtp.mailtrap.io
       SMTP_PORT: 2525
       SMTP_USERNAME: e1bb6f67bcf580
       SMTP_PASSWORD: 7e5a658c8d0ab5
-  todos-fn:
+  todos:
     lang: node10-express-service
     handler: ./todos-fn
     image: todos-fn:latest
     environment:
+      MONGODB_USERNAME: guillaume
+      MONGODB_PASSWORD: dvbn-745#kDHJ
       MONGODB_SERVICE: mercury-mongodb.openfaas.svc.cluster.local:27017
       KAFKA_SERVICE: mercury-kafka.openfaas.svc.cluster.local:9092

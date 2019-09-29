@@ -97,6 +97,7 @@ openfaasLoki:
   timeout: 30s
 
 mongodb:
+  secretType: Opaque
   password: dmJPaTRALGU0MmFhOiE=
   rootPassword: ZHZibi03NDUja0RISg==
   existingSecret: mongodb-secrets

@@ -68,7 +68,8 @@ const prepareDB = async () => {
     if (mongodbConnection)
         return mongodbConnection;
 
-    const url = 'mongodb://' + process.env.MONGODB_SERVICE;
+    const { MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_SERVICE } = process.env;
+    const url = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_SERVICE}`;
     const client = new MongoClient(url);
     await client.connect();
 
