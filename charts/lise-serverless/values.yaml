@@ -100,7 +100,7 @@ mongodb:
   secretType: Opaque
   password: dmJPaTRALGU0MmFhOiE=
   rootPassword: ZHZibi03NDUja0RISg==
-  existingSecret: mongodb-secrets
+  existingSecret: mercury-mongodb-secrets
   mongodbUsername: guillaume
   mongodbDatabase: lise
   persistence:
