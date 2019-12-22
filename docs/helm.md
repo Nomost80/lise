@@ -1,0 +1,2 @@
+L'api des certaines ressources ont changé depuis kubernetes 16.1 sauf que les Charts officiels n'ont pas encore étaient MAJ, d'ailleurs ils ne sont pas encore Helm3 compliant.
+Malgré Helm 3 y'a toujours pas de moyen d'obtenir les variables du .tpl d'un subchart..., on se retrouve à duppliquer certaines vars

@@ -32,6 +32,6 @@ spec:
         exact: /orders
     route:
     - destination:
-        host: {{ include "call-nested" (list . "order-service" "endpoint") }}
+        host: mercury-orders.lise-serverful.svc.cluster.local
         port:
           number: 80

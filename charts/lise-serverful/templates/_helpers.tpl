@@ -44,15 +44,12 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{- define "call-nested" -}}
-{{- $dot := index . 0 -}}
-{{- $subchart := index . 1 -}}
-{{- $template := index . 2 -}}
-{{- include $template (dict "Chart" (dict "Name" $subchart) "Values" (index $dot.Values $subchart) "Release" $dot.Release "Capabilities" $dot.Capabilities) -}}
+{{- define "kafka.fullname" -}}
+{{- printf "%s-%s" .Release.Name "kafka" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "kafka.endpoint" -}}
-{{- $kafkaName := include "call-nested" (list . "kafka" "kafka.fullname") -}}
+{{- $kafkaName := include "kafka.fullname" . -}}
 {{- $kafkaPort := 9092 -}}
 {{- if .Values.kafka.service -}}{{ if .Values.kafka.service.port -}}
  $kafkaPort := .Values.kafka.service.port

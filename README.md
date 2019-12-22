@@ -1,26 +1,23 @@
 # Getting started
-A running Kubernetes cluster is required.
+A running Kubernetes cluster is required with MetalLB.
 
 ## Serverful
 Istio should be installed in your cluster.
-* `kubectl apply -R -f ./k8s/serverful`
-* `export NAMESPACE="lise-serverful" RELEASE_NAME="mercury" NODE_IP="192.168.1.221" GATEWAY_NODE_PORT=31380` 
-* `helm init --service-account tiller --history-max 200 --tiller-namespace $NAMESPACE`
+* `export NAMESPACE="lise-serverful" RELEASE_NAME="mercury"` 
 * `kubectl label namespace $NAMESPACE istio-injection=enabled`
-* `helm charts/lise-serverful --tiller-namespace $NAMESPACE --namespace $NAMESPACE --name $RELEASE_NAME --dep-up`
+* `helm install $RELEASE_NAME charts/lise-serverful --namespace $NAMESPACE --dependency-update`
 
 Then you can test the release by running the following command:
 ```shell script
+kubectl get svc istio-ingressgateway -n istio-system
 curl -v -d '{"name":"usb key", "quantity":3, "unitPrice": 5}' \
   -H "Content-Type: application/json" \
-  -X POST "http://$NODE_IP:$GATEWAY_NODE_PORT/orders"
+  -X POST "http://$EXERNAL_IP/orders"
 ```
 
 ## Serverless
 OpenFaas should be installed in your cluster.
-* `kubectl apply -R -f ./k8s/serverless` 
-* `export NODE_IP="192.168.1.221" GATEWAY_NODE_PORT=31112 OF_NAMESPACE=openfaas RELEASE=mercury`
-* `helm init --tiller-namespace $OF_NAMESPACE --service-account tiller`
+* `export NODE_IP="192.168.10.205" GATEWAY_NODE_PORT=31112 OF_NAMESPACE=openfaas RELEASE=mercury`
 * `helm install ./charts/lise-serverless --dep-up --name $RELEASE --namespace $OF_NAMESPACE --tiller-namespace $OF_NAMESPACE`
 * `faas-cli up -f ./src/serverless/stack.yaml`
 

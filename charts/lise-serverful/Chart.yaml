@@ -1,5 +1,11 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "1.0"
 description: A Helm chart for Kubernetes
 name: lise-serverful
 version: 0.1.0
+dependencies:
+  - name: kafka
+    version: 5.2.1
+    repository: https://charts.bitnami.com/bitnami
+    import-values:
+      -
